@@ -1,11 +1,3 @@
----
-title: react生命周期
-date: 2018-12-14 13:13:47
-categories:
- - 前端
-tags:
- - react
----
 #### props和state的关系和作用
 
 render方法返回的结果并不是真正的DOM元素，而是一个虚拟的表现，类似于一个DOM tree的结构的对象。react之所以效率高，就是这个原因， 虚拟DOM在内存中是展开运用的，运行机制和原理？
