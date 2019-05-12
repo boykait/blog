@@ -20,5 +20,5 @@ Java
 - [HashMap浅析](./content/post/java/java基础/HashMap浅析.md) 
 
 Spring
-- [Spring IoC初始化过程](./content/post/spring/Spring-IoC初始化过程.md)
+- [Spring-IoC概论](./content/post/spring/Spring-IoC概论.md)
 - [Spring IoC初始化过程](./content/post/spring/Spring-IoC初始化过程.md)
