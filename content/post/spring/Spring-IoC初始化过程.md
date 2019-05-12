@@ -2,9 +2,9 @@
 title: Spring IoC初始化过程
 date: 2018-07-12 13:13:47
 categories:
- - 后端
+ - Spring
 tags:
- - Java
+ - Spring
 ---
 
 ### 1. BeanFactory和ApplicationContext

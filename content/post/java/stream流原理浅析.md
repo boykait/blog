@@ -2,9 +2,9 @@
 title: Stream流原理浅析
 date: 2018-03-10
 categories:
-  - js
+  - java
 tags:
-  - js事件处理
+  - Stream
 ---
 
 > java8中提供了强大的stream流处理，通过其提供的例如过滤(filter)、映射(map)、截取(limit)、收集(collect)等一系列方法的组合，可以很好的解决对集合数据的复杂操作，仅以此篇对stream流水线式组合原理进行浅析，望知其然并知其所以然。
