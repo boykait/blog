@@ -15,6 +15,7 @@ Vue源码循序渐进系列
 
 Java
 - [lambda初识](./content/post/java/java基础/lambda初识.md) 
+- [Stream流原理浅析](./content/post/java/Stream流原理浅析.md) 
 - [ArrayList浅析](./content/post/java/java基础/ArrayList浅析.md) 
 - [HashMap浅析](./content/post/java/java基础/HashMap浅析.md) 
 
