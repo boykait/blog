@@ -133,9 +133,7 @@ Vue.prototype.$mount = function (
 ```    
 &emsp;&emsp;其中compileToFunctions应该说是$mount的核心，该方法就是实现了template模板到render函数的编译过程，该过程主要有三步骤：   
 
-<div align="center">
 ![Template编译生成render函数过程](/images/190512-vue_$mount_2.png)     
-</div>
 
 &emsp;&emsp;看一下这个方法的相关定义（后面相关文章再对该过程进行详细展开研究）:
 ```javascript
@@ -223,7 +221,7 @@ export function mountComponent (
 &emsp;&emsp;先贴一张Vue官网的生命周期图:
 
 <div align="center">
-<img src="/images/190512-vue_$mount_1.png" height="330" width="190" >
+<img src="/images/190512-vue_$mount_1.png" height="600" width="300" >
 </div>
  
  
