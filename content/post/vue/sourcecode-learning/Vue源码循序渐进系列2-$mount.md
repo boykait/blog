@@ -132,8 +132,8 @@ Vue.prototype.$mount = function (
 }  
 ```    
 &emsp;&emsp;其中compileToFunctions应该说是$mount的核心，该方法就是实现了template模板到render函数的编译过程，该过程主要有三步骤：   
-![Template编译生成render函数过程](images/190512-vue_$mount_2.png)     
-&emsp;&emsp看一下这个方法的相关定义（后面相关文章再对该过程进行详细展开研究）:
+![Template编译生成render函数过程](/images/190512-vue_$mount_2.png)     
+&emsp;&emsp;看一下这个方法的相关定义（后面相关文章再对该过程进行详细展开研究）:
 ```javascript
 ->/src/platforms/web/compiler/index.js
  ->/vue/src/compiler/index.js
@@ -219,7 +219,6 @@ export function mountComponent (
 &emsp;&emsp;先贴一张Vue官网的生命周期图:
 ![Vue生命周期](/images/190512-vue_$mount_1.png)    
 &emsp;&emsp;$mount主要出于图中标记的红框区域，根据流程图逻辑梳理$mount主要的工作：    
-```javascript
-1. 判断初始化options中是否包含“template”属性，有则先将其编译转化为render函数，否则el的el的outerHtml作为模板然后再编译转换；    
-2. 执行mountComponent组件挂载；
-```
+
+- 判断初始化options中是否包含“template”属性，有则先将其编译转化为render函数，否则el的el的outerHtml作为模板然后再编译转换，编译过程主要包含：生产AST、优化、生产render函数代码；    
+- 执行mountComponent组件挂载；
