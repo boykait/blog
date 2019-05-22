@@ -175,7 +175,7 @@ export function defineReactive (
 &emsp;&emsp;通过上面步骤将options中data的的属性变得可观察，defineReactive方法中的闭包方法set比较好理解，就如上面所说，设置新值newVal，并判断该值是否是为非基本数据类型，如若不是，可能就需要从新将newVal变得可观察；然后通知订阅器中所有的订阅者，进行视图更新等操作；get中的Dep.target不太好理解，我也是研究了一两天才明白，这里先不说，反正就是满足Dep.target不为undefined，则进行依赖收集，否则就是普通的数据获取操作，返回数据即可。
 
 ### 2. 订阅-发布
-&emsp;&emsp;订阅-发布
+&emsp;&emsp;假使大家都晓得订阅-发布是个什么情况(不太清除可自行百度，不在此占据篇幅了)，那么，我们要知道，谁是订阅者，订阅的目标是什么	
 #### 2.1 订阅器Dep
 
 
