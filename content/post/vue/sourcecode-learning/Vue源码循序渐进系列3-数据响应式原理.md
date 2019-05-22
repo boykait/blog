@@ -16,7 +16,7 @@ tags:
 
 接下来对Vue数据响应系统的这两个核心技术进行探究：
 
-### 数据劫持
+### 1. 数据劫持
 &emsp;&emsp;Vue数据劫持主要利用Object.defineProperty来实现对对象属性的拦截操作，拦截工作主要就Object.defineProperty中的getter和setter做文章，看一栗子：    
 ```javascript
 var person = {
@@ -173,5 +173,9 @@ export function defineReactive (
 }
 ```
 &emsp;&emsp;通过上面步骤将options中data的的属性变得可观察，defineReactive方法中的闭包方法set比较好理解，就如上面所说，设置新值newVal，并判断该值是否是为非基本数据类型，如若不是，可能就需要从新将newVal变得可观察；然后通知订阅器中所有的订阅者，进行视图更新等操作；get中的Dep.target不太好理解，我也是研究了一两天才明白，这里先不说，反正就是满足Dep.target不为undefined，则进行依赖收集，否则就是普通的数据获取操作，返回数据即可。
+
+### 2. 订阅-发布
+&emsp;&emsp;订阅-发布
+#### 2.1 订阅器Dep
 
 
