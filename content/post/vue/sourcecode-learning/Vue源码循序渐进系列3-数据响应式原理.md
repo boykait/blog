@@ -173,7 +173,139 @@ export function defineReactive (
 &emsp;&emsp;通过上面步骤将options中data的的属性变得可观察，defineReactive方法中的闭包方法set比较好理解，就如上面所说，设置新值newVal，并判断该值是否是为非基本数据类型，如若不是，可能就需要从新将newVal变得可观察；然后通知订阅器中所有的订阅者，进行视图更新等操作；get中的Dep.target不太好理解，我也是研究了一两天才明白，这里先不说，反正就是满足Dep.target不为undefined，则进行依赖收集，否则就是普通的数据获取操作，返回数据即可。
 
 ### 2. 订阅-发布
-&emsp;&emsp;假使大家都晓得订阅-发布是个什么情况(不太清除可自行百度，不在此占据篇幅了)，那么，我们要知道，谁是订阅者，订阅的目标是什么	
-#### 2.1 订阅器Dep
+&emsp;&emsp;假使大家都晓得订阅-发布是个什么情况(不太清除可自行百度，不在此占据篇幅了)，那么，我们要知道，谁是订阅者，订阅的目标是什么？有了这个疑问，我们接下来看看相关的数据结构定义
+	
+#### 2.1 依赖收集(更新订阅者)
+```javascript
+// src/core/observer/dep.js
+export default class Dep {
+  static target: ?Watcher;  //target全局
+  id: number;
+  subs: Array<Watcher>;
+
+  addSub (sub: Watcher) {
+    this.subs.push(sub)
+  }
+
+  removeSub (sub: Watcher) {
+    remove(this.subs, sub)
+  }
+
+  depend () {
+    if (Dep.target) {
+      Dep.target.addDep(this)
+    }
+  }
+
+  notify () {
+    // stabilize the subscriber list first
+    const subs = this.subs.slice()
+    if (process.env.NODE_ENV !== 'production' && !config.async) {
+      // subs aren't sorted in scheduler if not running async
+      // we need to sort them now to make sure they fire in correct
+      // order
+      subs.sort((a, b) => a.id - b.id)
+    }
+    // 循环对订阅者进行更新操作（调用watcher的update方法）
+    for (let i = 0, l = subs.length; i < l; i++) {
+      subs[i].update()
+    }
+  }
+}
+
+Dep.target = null
+const targetStack = []
+
+export function pushTarget (target: ?Watcher) {
+  // 将当前的watcher推入堆栈中，关于为什么要推入堆栈，主要是要处理模板或render函数中嵌套了多层组件，需要递归处理
+  targetStack.push(target)
+  // 设置当前watcher到全局的Dep.target，通过在此处设置，key使得在进行get的时候对当前的订阅者进行依赖收集
+  Dep.target = target
+}
+
+export function popTarget () {
+  targetStack.pop()
+  Dep.target = targetStack[targetStack.length - 1]
+}
 
 
+// src/core/observer/watcher.js
+ addDep (dep: Dep) {
+    const id = dep.id
+    if (!this.newDepIds.has(id)) {
+      this.newDepIds.add(id)
+      this.newDeps.push(dep)
+      if (!this.depIds.has(id)) {
+        // 将订阅的watcher添加到当前的发布者watcher中
+        dep.addSub(this)
+      }
+    }
+  }
+```
+
+&emsp;&emsp;之前在getter的依赖收集过程中，当Dep.target成立时，会执行`dep.depend()`方法，可以看到，Dep中定义的depend()方法会调用` Dep.target`的`addDep()`方法，这个过程传递的参数就是在defineReactive中定义的dep对象，那么Dep.target到底是什么东西呢，这个可以看Watcher对应get方法中的定义:
+```javascript
+// Watcher -> get()
+ get () {
+    pushTarget(this)
+    let value
+    const vm = this.vm
+    try {
+      // 调用getter方法
+      value = this.getter.call(vm, vm)
+    } catch (e) {
+      if (this.user) {
+        handleError(e, vm, `getter for watcher "${this.expression}"`)
+      } else {
+        throw e
+      }
+    } finally {
+      // "touch" every property so they are all tracked as
+      // dependencies for deep watching
+      // 深层次遍历
+      if (this.deep) {
+        traverse(value)
+      }
+      // 弹出
+      popTarget()
+      // 清除依赖，主要是针对有些发生了改变的依赖进行更新，比如新添加了依赖或者去除了原有依赖
+      this.cleanupDeps()
+    }
+    return value
+  }
+
+// Dep-> pushTarget()
+export function pushTarget (target: ?Watcher) {
+  // 将当前的watcher推入堆栈中，关于为什么要推入堆栈，主要是要处理模板或render函数中嵌套了多层组件，需要递归处理
+  targetStack.push(target)
+  // 设置当前watcher到全局的Dep.target，通过在此处设置，key使得在进行get的时候对当前的订阅者进行依赖收集
+  Dep.target = target
+}
+```
+&emsp;&emsp;因为js是单线程执行，同一时刻只能执行一个Watcher，执行当前Watcher实例时候，Dep.target指向当前Watcher订阅者，当在执行下一个Watcher订阅者的get方法时候，即指向下一个订阅者，即Dep.target永远指向的是当前的Watcher订阅者，然后将当前订阅者添加到dep对应的subs订阅列表中，同时订阅者内部也需要记录有哪些订阅目标(dep)，便于进行依赖收集过程的更新操作。用一张图来表述：
+![Dep-Watcher关系图](/images/190523-vue_reactive_1.png)
+
+#### 2.2 更新通知
+&emsp;&emsp;在数据劫持的闭包方法setter代码中，通过调用`dep.notify()`进行数据更新通知，这个阶段的主要工作就是将当前订阅目标dep更新消息通知到订阅列表中的订阅者（Watcher），然后订阅者利用注册的回调方法进行视图渲染等操作。
+```javascript
+// src/core/observer/dep.js
+notify () {
+	...
+	// 循环对订阅者进行更新操作（调用Watcher的update方法）
+	for (let i = 0, l = subs.length; i < l; i++) {
+	  subs[i].update()
+	}
+ }
+
+// src/core/observer/watcher.js
+update () {
+    /* istanbul ignore else */
+    if (this.lazy) { // 是否为懒加载(这个何时执行？)
+      this.dirty = true
+    } else if (this.sync) { // 是否为同步方式更新
+      this.run()
+    } else { // 加入到订阅者更新队列(最终也要执行run方法)
+      queueWatcher(this)
+    }
+  }
+```
