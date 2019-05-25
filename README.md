@@ -12,7 +12,7 @@ js基础
 Vue源码循序渐进系列
 - [1. 源文件追踪和_init方法初探](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列1-源文件追踪和_init方法初探.md)
 - [2. $mount](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列2-$mount.md)
-- [3. 数据响应式原理](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列3-数据响应式原理.md) 更新中...
+- [3. 数据响应式原理](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列3-数据响应式原理.md)
 
 Java
 - [lambda初识](./content/post/java/java基础/lambda初识.md) 
