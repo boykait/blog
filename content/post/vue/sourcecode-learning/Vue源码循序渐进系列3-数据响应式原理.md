@@ -313,7 +313,7 @@ update () {
 &emsp;$emsp;在run()中主要调用`Watcher -> get()`，在这说明一下`get()`中`this.getter.call(vm, vm)`的getter来源主要有两种-函数或表达式，函数比如render function、computed中的getter(), 表达式类似于"person.name"这种类型，经过`parsePath`转换成为getter()方法。[传送门](./Vue源码循序渐进系列4-Watcher那些事.md)中对Watcher的种类进行了总结。
 
 ### 总结
-&emsp;&emsp;以上就是我对Vue数据响应式系统的一些学习，初步涉猎，估计还是有不少理解上的不到位，希望有幸能被大家看到并指出，这一过程中参考了不少的前人好文，太多就罗列一二，希望对大家也有帮助：     
+&emsp;&emsp;以上就是我对Vue数据响应式系统的一些学习，由于工作原因，前后花了一周左右的时间才写完，初步涉猎，估计还是有不少理解上的不到位，希望有幸能被大家看到并指出，这一过程中参考了不少的前人好文，太多就罗列一二，希望对大家也有帮助：     
    
 - [Vue源码解读一：Vue数据响应式原理](https://www.jianshu.com/p/1032ecd62b3a)
 - [深度解析 Vue 响应式原理](https://www.cnblogs.com/zhangycun/p/9463814.html)
