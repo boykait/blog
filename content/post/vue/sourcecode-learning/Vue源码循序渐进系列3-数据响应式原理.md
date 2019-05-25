@@ -8,7 +8,7 @@ tags:
   - Vue源码循序渐进
 ---
 
-&emsp;&emsp;Vue作为一种MVVM框架，能够实现数据的双向绑定，让Vue技术栈的前端从业者摆脱了繁琐的DOM操作，这完全得益于Vue框架开发者对原生Object对象的深度应用。Vue实现数据响应系统的核心技术就是数据劫持和订阅-发布，基本思想就是通过对数据操作进行截获，在数据进行getter操作的时候更新依赖，即依赖收集过程(更新订阅对象集)；在数据进行setter时通知所有依赖的组件一并进行更新操作(通知订阅对象)。Vue数据响应系统原理示意图如下:
+&emsp;&emsp;Vue作为一种MVVM框架，能够实现数据的双向绑定，让Vue技术栈的前端从业者摆脱了繁琐的DOM操作，这完全得益于Vue框架开发者对原生Object对象的深度应用。Vue实现数据响应系统的核心技术就是数据劫持和订阅-发布，基本思想就是通过对数据操作进行截获，在数据进行getter操作的时候更新依赖，即依赖收集过程(更新订阅对象集)；在数据进行setter时通知所有依赖的组件一并进行更新操作(通知订阅对象)。Vue数据响应系统原理示意图如下:    
 
 ![Vue数据响应系统](/images/190522-vue_reactive_1.png)
 
@@ -109,7 +109,7 @@ class Observer {
       } else {
         copyAugment(value, arrayMethods, arrayKeys)
       }
-      // 处理数组
+      // 处理数组，数组中的每个对象都会进行可观察化操作
       this.observeArray(value)
     } else {
       // 处理对象，主要遍历对象中所有属性，并将所有属性变得可观察
@@ -283,6 +283,7 @@ export function pushTarget (target: ?Watcher) {
 }
 ```
 &emsp;&emsp;因为js是单线程执行，同一时刻只能执行一个Watcher，执行当前Watcher实例时候，Dep.target指向当前Watcher订阅者，当在执行下一个Watcher订阅者的get方法时候，即指向下一个订阅者，即Dep.target永远指向的是当前的Watcher订阅者，然后将当前订阅者添加到dep对应的subs订阅列表中，同时订阅者内部也需要记录有哪些订阅目标(dep)，便于进行依赖收集过程的更新操作。用一张图来表述：
+
 ![Dep-Watcher关系图](/images/190523-vue_reactive_1.png)
 
 #### 2.2 更新通知
@@ -309,3 +310,11 @@ update () {
     }
   }
 ```
+&emsp;$emsp;在run()中主要调用`Watcher -> get()`，在这说明一下`get()`中`this.getter.call(vm, vm)`的getter来源主要有两种-函数或表达式，函数比如render function、computed中的getter(), 表达式类似于"person.name"这种类型，经过`parsePath`转换成为getter()方法。[传送门](./Vue源码循序渐进系列4-Watcher那些事.md)中对Watcher的种类进行了总结。
+
+### 总结
+&emsp;&emsp;以上就是我对Vue数据响应式系统的一些学习，初步涉猎，估计还是有不少理解上的不到位，希望有幸能被大家看到并指出，这一过程中参考了不少的前人好文，太多就罗列一二，希望对大家也有帮助：     
+   
+- [Vue源码解读一：Vue数据响应式原理](https://www.jianshu.com/p/1032ecd62b3a)
+- [深度解析 Vue 响应式原理](https://www.cnblogs.com/zhangycun/p/9463814.html)
+
