@@ -1,3 +1,5 @@
+初入前端江湖才知深似海，记录一些工作和学习的总结，虽然水平有限，但欢迎大家star，相互学习进步。
+
 js基础
 - [js发展前史](./content/post/js/js发展前史.md)
 - [js中的初始化过程与垃圾回收](./content/post/js/js中的初始化过程与垃圾回收.md)
@@ -14,7 +16,7 @@ Vue源码循序渐进系列
 - [2. $mount](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列2-$mount.md)
 - [3. 数据响应式原理](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列3-数据响应式原理.md)
 - [4. Wathcer那些事](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列4-Watcher那些事儿.md)
-更新中...
+- 更新中...
 
 Java
 - [lambda初识](./content/post/java/java基础/lambda初识.md) 
