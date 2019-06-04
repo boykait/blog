@@ -14,6 +14,7 @@ Vue源码循序渐进系列
 - [2. $mount](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列2-$mount.md)
 - [3. 数据响应式原理](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列3-数据响应式原理.md)
 - [4. Wathcer那些事](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列4-Watcher那些事儿.md)
+- [5. diff算法](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列5-diff算法.md)
 
 Java
 - [lambda初识](./content/post/java/java基础/lambda初识.md) 
