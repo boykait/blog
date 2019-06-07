@@ -24,4 +24,84 @@ tags:
       vm._update(vm._render(), hydrating)
     }
 ```
-&emsp;&emsp;_update()接收两个参数，通过_render()返回的一个VNode根节点，以及是否为服务器端渲染标识，在方法内部，
+&emsp;&emsp;_update()接收两个参数，通过_render()返回的一个VNode根节点，以及是否为服务器端渲染标识，在方法内部，核心操作就是调用挂载在原型链上的__patch__方法进行打补丁式的更新渲染操作：
+```javascript
+-> core/vdom/patch.js
+
+
+```	
+
+&emsp;&emsp;VNode全部属性约20来个，相比于原生DOM节点操作起来确实轻便不少看一下关于Virtual DOM的虚拟节点VNode核心属性的相关定义:
+```javascript
+VNode {
+  tag: string | void; // 当前节点的标签名   如： tag: "div"
+  data: VNodeData | void; // 当前节点数据（VNodeData类型）如:attrs: {id: "app" staticClass: "aaa bbb ccc" staticStyle: {color: "red"}
+  children: ?Array<VNode>; // 虚拟还在节点
+  text: string | void; // 文本文字
+  elm: Node | void; // 真实DOM节点
+  ns: string | void; // 当前节点的名字空间
+  context: Component | void; // rendered in this component's scope 编译作用域 Vue {_uid: 0, _isVue: true, $options: {…}, _renderProxy: Proxy, _self: Vue, …}
+  key: string | number | void; // 
+  parent: VNode | void; // component placeholder node
+```
+
+### diff过程
+&emsp;&emsp;diff算法是Vue实现补丁式页面渲染的核心，相对于传统的DOM渲染，Vue假设Web UI跨级移动操作少可忽略不计，将diff对比过程定义为同级对比，时间复杂度由O(N^3)降为O(N)，借用一张经典的对比图：
+
+![diff对比图](/images/190607-vue_diff_1.png)
+
+#### diff示例
+&emsp;&emsp;给一个diff对比栗子:
+```javascript
+原孩子VNode列表， oldCh： [a, b, c, d]    
+操作后：    
+新孩子VNode列表，newwCh: [a, d, e, a]
+```
+&emsp;&emsp;原oldCh对应的节点在真实DOM树种简单表示为：
+![diff对比1](/images/190607-vue_diff_instance_1.png)
+
+
+&emsp;&emsp;约定oldCh中的起止下标: oldS、oldE，newCh中的起止下标:newS、newE，依照diff原理推演在虚拟本层虚拟孩子节点列表发生变化的过程：
+&emsp;&emsp;首先，第1次对比:
+```javascript
+oldCh： [a, b, c, d]    oldS: a    oldE: d
+newCh:  [b, d, e, a]    newS: b    newE: a
+```
+&emsp;&emsp; oldS和newS对比(a-b)，未能匹配，然后oldS和newE对比(a-a)，对比对比成功，即a在真实DOM树种被移动到最后，触发页面进行渲染：
+![diff对比2](/images/190607-vue_diff_instance_2.png)
+
+&emsp;&emsp;第2次对比:
+```javascript
+oldCh： [b, c, d]    oldS: b    oldE: d
+newCh:  [b, d, e]    newS: b    newE: e
+```
+&emsp;&emsp; oldS和newS对比(b-b)，比对成功，未发生改变，不发生渲染动作:
+
+![diff对比3](/images/190607-vue_diff_instance_3.png)
+
+&emsp;&emsp;第3次对比:
+```javascript
+oldCh： [c, d]    oldS: c    oldE: d
+newCh:  [d, e]    newS: d    newE: e
+```
+&emsp;&emsp; oldS和newS对比(c-d)，未匹配；然后oldS和newE对比(c-e)，未匹配；再用oldE和newS(d-d)，匹配成功，触发页面进行渲染：
+![diff对比4](/images/190607-vue_diff_instance_4.png)
+
+&emsp;&emsp;第4次对比:
+```javascript
+oldCh： [c]    oldS: c    oldE: c
+newCh:  [e]    newS: e    newE: e
+```
+&emsp;&emsp; oldS和newS对比(c-e)，未匹配；然后oldS和newE对比(c-e)，未匹配；再用oldE和newS(c-e)，匹配未成功；接着再用oldE和newE对比(c-e)，均为成功；最后在oldCh列表中挨着去查找(虽然只有一个节点)，发现确实没找到，那就新创建一个DOM节点，然后插到DOM树上对应位置：
+![diff对比5](/images/190607-vue_diff_instance_5.png)
+
+&emsp;&emsp;第5次对比:
+```javascript
+oldCh： [c]    oldS: c    oldE: c
+newCh:  []    newS: null    newE: null
+```
+&emsp;&emsp; 发现newCh中基本遍历完了，old中还有一个虚拟节点c未处理，标明这个节点是期望应该被移除，那就在DOM树种去掉c对应的真实节点：
+![diff对比6](/images/190607-vue_diff_instance_6.png)
+
+#### 优化设置-key
+&emsp;&emsp;
