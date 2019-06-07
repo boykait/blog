@@ -58,6 +58,7 @@ VNode {
 新孩子VNode列表，newwCh: [a, d, e, a]
 ```
 &emsp;&emsp;原oldCh对应的节点在真实DOM树种简单表示为：
+
 ![diff对比1](/images/190607-vue_diff_instance_1.png)
 
 
@@ -68,6 +69,7 @@ oldCh： [a, b, c, d]    oldS: a    oldE: d
 newCh:  [b, d, e, a]    newS: b    newE: a
 ```
 &emsp;&emsp; oldS和newS对比(a-b)，未能匹配，然后oldS和newE对比(a-a)，对比对比成功，即a在真实DOM树种被移动到最后，触发页面进行渲染：
+
 ![diff对比2](/images/190607-vue_diff_instance_2.png)
 
 &emsp;&emsp;第2次对比:
@@ -85,6 +87,7 @@ oldCh： [c, d]    oldS: c    oldE: d
 newCh:  [d, e]    newS: d    newE: e
 ```
 &emsp;&emsp; oldS和newS对比(c-d)，未匹配；然后oldS和newE对比(c-e)，未匹配；再用oldE和newS(d-d)，匹配成功，触发页面进行渲染：
+
 ![diff对比4](/images/190607-vue_diff_instance_4.png)
 
 &emsp;&emsp;第4次对比:
@@ -93,6 +96,7 @@ oldCh： [c]    oldS: c    oldE: c
 newCh:  [e]    newS: e    newE: e
 ```
 &emsp;&emsp; oldS和newS对比(c-e)，未匹配；然后oldS和newE对比(c-e)，未匹配；再用oldE和newS(c-e)，匹配未成功；接着再用oldE和newE对比(c-e)，均为成功；最后在oldCh列表中挨着去查找(虽然只有一个节点)，发现确实没找到，那就新创建一个DOM节点，然后插到DOM树上对应位置：
+
 ![diff对比5](/images/190607-vue_diff_instance_5.png)
 
 &emsp;&emsp;第5次对比:
@@ -101,6 +105,7 @@ oldCh： [c]    oldS: c    oldE: c
 newCh:  []    newS: null    newE: null
 ```
 &emsp;&emsp; 发现newCh中基本遍历完了，old中还有一个虚拟节点c未处理，标明这个节点是期望应该被移除，那就在DOM树种去掉c对应的真实节点：
+
 ![diff对比6](/images/190607-vue_diff_instance_6.png)
 
 #### 优化设置-key
