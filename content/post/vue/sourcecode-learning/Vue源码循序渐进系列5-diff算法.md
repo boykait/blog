@@ -24,14 +24,8 @@ tags:
       vm._update(vm._render(), hydrating)
     }
 ```
-&emsp;&emsp;_update()接收两个参数，通过_render()返回的一个VNode根节点，以及是否为服务器端渲染标识，在方法内部，核心操作就是调用挂载在原型链上的__patch__方法进行打补丁式的更新渲染操作：
-```javascript
--> core/vdom/patch.js
-
-
-```	
-
-&emsp;&emsp;VNode全部属性约20来个，相比于原生DOM节点操作起来确实轻便不少看一下关于Virtual DOM的虚拟节点VNode核心属性的相关定义:
+&emsp;&emsp;_update()接收两个参数，通过_render()返回的一个VNode根节点，以及是否为服务器端渲染标识，在方法内部，核心操作就是调用挂载在原型链上的__patch__方法进行打补丁式的更新渲染操作。
+&emsp;&emsp;VNode全部属性约20来个，相比于原生DOM节点操作起来确实轻便不少，看一下关于Virtual DOM的虚拟节点VNode核心属性的相关定义:
 ```javascript
 VNode {
   tag: string | void; // 当前节点的标签名   如： tag: "div"
@@ -45,7 +39,7 @@ VNode {
   parent: VNode | void; // component placeholder node
 ```
 
-### diff过程
+### diff算法
 &emsp;&emsp;diff算法是Vue实现补丁式页面渲染的核心，相对于传统的DOM渲染，Vue假设Web UI跨级移动操作少可忽略不计，将diff对比过程定义为同级对比，时间复杂度由O(N^3)降为O(N)，借用一张经典的对比图：
 
 ![diff对比图](/images/190607-vue_diff_1.png)
@@ -108,5 +102,5 @@ newCh:  []    newS: null    newE: null
 
 ![diff对比6](/images/190607-vue_diff_instance_6.png)
 
-#### 优化设置-key
-&emsp;&emsp;
+### 总结
+&emsp;emsp;Vue根据diff思想更新DOM树，以尽量达到最小化回流重绘，不过还是要知道，构造VirtualDOM不是免费的，需要付诸相应的构造时间和内存空间。
