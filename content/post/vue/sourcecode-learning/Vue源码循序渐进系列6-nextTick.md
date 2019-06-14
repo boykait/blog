@@ -57,7 +57,7 @@ this.$nextTick(() => {
 &emsp;&emsp;结果同预期相符。怎么放在Vue.nextTick/vue.$nextTick里面就能够保证对更新后的DOM进行操作呢？这也太优秀了。对，它就是能够保证，接下来一探究竟。
 
 ### Vue异步渲染
-&emsp;&emsp;在Vue方法中可能对多个监听的数据进行操作进行复杂操作比如不停的计算，那么如果没更改一次这样的值就立马渲染相应的数据，那性能消耗无疑非常可观，所以Vue的更新操作是异步的，换句话讲，就是收集了一大波要更新的东西、然后一把梭，这有效的减少了回流重绘操作。
+&emsp;&emsp;在Vue方法中可能对多个监听的数据进行操作进行复杂操作比如不停的计算，那么如果没更改一次这样的值就立马渲染相应的数据，那性能消耗无疑非常可观，所以Vue的更新操作是异步的，换句话讲，就是收集了一大波要更新的东西、然后一把梭，这有效的减少了回流重绘操作。    
 &emsp;&emsp;前面关于对[数据响应式原理](./Vue源码循序渐进系列3-数据响应式原理.md)、[Watcher那些事儿](./Vue源码循序渐进系列4-Watcher那些事儿.md)讲了Vue的数据响应式的一些原理，我们知道，Watcher订阅者能够接收数据的更新通知进行update操作，在默认情况下，Watcher的更新并不会马上反应到界面上（这就是上面说的异步更新），而是将当前的Wathcer推入一个队列中-queueWatcher，继续追踪queueWatcher的实现，发现内部最根本的操作就是调用的nextTick去执行watcher对应的回调方法（get数据/渲染页面）：
 
 ```javascript
@@ -69,7 +69,7 @@ update () {
     } else if (this.sync) { // 是否为同步方式更新
       this.run()
     } else { // 加入到订阅者更新队列(最终也要执行run方法)
-      queueWatcher(this)
+      queueWatcher(th出nextTick的实现is)
     }
   }
 
@@ -138,8 +138,6 @@ function flushSchedulerQueue () {
 &emsp;&emsp;当将自定义DOM操作放在nextTick的回调方法中处理时，在nextTick内部会将该回调方法推入callbacks回调数组中（这个回调数组也是存放flushSchedulerQueue的数组），这两者的优先级一样高，就是看谁先被加入callbacks的时机，所以,如果click里面这样写，就不难知道：
 
 ```javascript
-
-```javascript
 click1() {
   this.message = 'hello world';
   this.$nextTick(() => {
@@ -157,10 +155,8 @@ click2() {
   this.message = 'hello world 1';
 }
 ```
-```
 
-
-Vue的下面给出nextTick的实现：
+下面给出Vue的nextTick的实现：
 
 ```javascript
 export function nextTick (cb?: Function, ctx?: Object) {
