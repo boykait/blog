@@ -11,14 +11,14 @@ js基础
 - [深入理解ES6-note4-Set和Map](./content/post/js/深入理解ES6-note4-Set和Map.md)
 
 
-Vue源码循序渐进系列
+Vue-源码循序渐进
 - [1. 源文件追踪和_init方法初探](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列1-源文件追踪和_init方法初探.md)
 - [2. $mount](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列2-$mount.md)
 - [3. 数据响应式原理](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列3-数据响应式原理.md)
 - [4. Wathcer那些事](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列4-Watcher那些事儿.md)
 - [5. diff算法](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列5-diff算法.md)
 - [6. nextTick](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列6-nextTick.md)
-更新中...
+- [7. 核心插件-Vue-Router实现原理](./content/post/vue/vue-router/Vue-Router实现原理.md)更新中...
 
 Java
 - [lambda初识](./content/post/java/java基础/lambda初识.md) 
