@@ -18,7 +18,7 @@ Vue-源码循序渐进
 - [4. Wathcer那些事](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列4-Watcher那些事儿.md)
 - [5. diff算法](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列5-diff算法.md)
 - [6. nextTick](./content/post/vue/sourcecode-learning/Vue源码循序渐进系列6-nextTick.md)
-- [7. 核心插件分析-Vue-Router路由模式和install过程](./content/post/vue/vue-routerVue-Router路由模式和install过程.md)
+- [7. 核心插件分析-Vue-Router路由模式和install过程](./content/post/vue/vue-router/Vue-Router路由模式和install过程.md)
 - [8. 核心插件分析-Vue-Router实例化]更新中...
 
 Java

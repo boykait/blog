@@ -191,9 +191,10 @@ const registerInstance = (vm, callVal) => {
 ````
 &emsp;&emsp;这个混入相当于是定义，具体执行时等各组件在进行实例化时按照生命周期回调beforeCreate和destoryed这两个钩子函数，destroyed作用是在进行比如路由切换后、实际上作用就是清除上一个展示在router-view中的组件所渲染的内容。
 - 2.  将$router和$route挂载到Vue的原型链上，可以通过this.$router和this.$route进行使用；
+- 3. 注册router-link和router-view两个组件到Vue中。
 
 ### 总结
-&emsp;&emsp;由于希望篇幅不要太大，不然看起来比较吃力，所以本篇文章就写到这里，关于实例化和具体使用所涉及到的原理工作后面文章再讨论。在这对本篇文章做一个小结： 
+&emsp;&emsp;由于希望篇幅不要太大，不然看起来比较吃力，所以本篇文章先就写到这里，关于实例化和具体使用所涉及到的原理工作后面文章再讨论。在这对本篇文章做一个小结： 
    
 - 简要介绍了前端路由，以及实现前端路由的两种模式 URL hash和history API并对这两者做了对比；
 - 介绍了Vue是如何use Vue-Router组件，实际上内部就是回调Vue-Router内部定义的install方法；
