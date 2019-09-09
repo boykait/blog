@@ -72,3 +72,18 @@ _：匹配单个，WHERE name LIKE '_xiaoming';
 ```
 
 注意：使用通配符，在时间开销上可能较大，所以要慎用，如果要使用，尽量将其放到靠后的位置，先匹配精准的条件
+
+### 第9章 用正则表达式进行搜索
+&emsp;&emsp;参考正则表达式必知必会
+
+### 第10章 创建计算字段
+&emsp;&emsp;GROUP_CONCAT(CONCAT(str1, str2))分组拼接 
+
+### 第11章 使用数据处理函数
+
+### 第12章 汇总数据
+&emsp;&emsp;AVG、COUNT、MAX、MIN、SUM
+
+### 第13章 分组数据
+&emsp;&emsp; GROUP BY 分组属性 [HAVING 过滤条件]
+&emsp;&emsp; 思考：复杂的SQL语句操作的顺序很重要喔！怎么优化？
