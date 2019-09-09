@@ -33,4 +33,4 @@ Spring
 
 数据库知识
 -MySQL
- - [MySQL必知必会学习笔]((./content/post/database/MySQL/MySQL必知必会学习笔记.md)
+ - [MySQL必知必会学习笔记](./content/post/database/MySQL/MySQL必知必会学习笔记.md)
