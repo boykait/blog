@@ -54,6 +54,32 @@ public class com.boykait.memorymodule.MemoryModuleMain {
       Start  Length  Slot  Name   Signature
           0       5     0  this   Lcom/boykait/memorymodule/MemoryModuleMain;
 
+  public int sum();
+    Code:
+       0: iconst_1
+       1: istore_1
+       2: iconst_2
+       3: istore_2
+       4: iload_1
+       5: iload_2
+       6: iadd
+       7: bipush        10
+       9: imul
+      10: istore_3
+      11: iload_3
+      12: ireturn
+    LineNumberTable:
+      line 5: 0
+      line 6: 2
+      line 7: 4
+      line 8: 11
+    LocalVariableTable:
+      Start  Length  Slot  Name   Signature
+          0      13     0  this   Lcom/boykait/memorymodule/MemoryModuleMain;
+          2      11     1     a   I
+          4       9     2     b   I
+         11       2     3     c   I
+
   public static void main(java.lang.String[]);
     Code:
        0: new           #2                  // class com/boykait/memorymodule/MemoryModuleMain
@@ -62,7 +88,7 @@ public class com.boykait.memorymodule.MemoryModuleMain {
        7: astore_1
        8: getstatic     #4                  // Field java/lang/System.out:Ljava/io/PrintStream;
       11: aload_1
-      12: invokespecial #5                  // Method sum:()I
+      12: invokevirtual #5                  // Method sum:()I
       15: invokevirtual #6                  // Method java/io/PrintStream.println:(I)V
       18: return
     LineNumberTable:
@@ -74,6 +100,7 @@ public class com.boykait.memorymodule.MemoryModuleMain {
           0      19     0  args   [Ljava/lang/String;
           8      11     1    mm   Lcom/boykait/memorymodule/MemoryModuleMain;
 }
+
 ```
 
 
