@@ -55,4 +55,95 @@ org.springframework.boot.web.context.ServerPortInfoApplicationContextInitializer
 org.springframework.boot.autoconfigure.SharedMetadataReaderFactoryContextInitializer
 org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener
 ```
-&emsp;&emsp;指定getSpringFactoriesInstances的参数类型为ApplicationListener.class	
+&emsp;&emsp;指定getSpringFactoriesInstances的参数类型为ApplicationListener.class
+
+### 3 SpringBoot.run()过程
+&emsp;&emsp;在初始化`new SpringBootApplication`后	，第二个核心步骤就是执行run方法，run方法返回ConfigurableApplicationContext上下文实例对象，先整体梳理一下该过程的执行逻辑。
+
+```java
+public ConfigurableApplicationContext run(String... args) {
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
+		ConfigurableApplicationContext context = null;
+		Collection<SpringBootExceptionReporter> exceptionReporters = new ArrayList<>();
+		configureHeadlessProperty();
+        // 创建SpringApplicationRunListeners对象实例，同样是从spring.factories配置文件中进行匹配
+		SpringApplicationRunListeners listeners = getRunListeners(args);
+        // 启动所有监听器
+		listeners.starting();
+		try {
+			// 参数
+			ApplicationArguments applicationArguments = new DefaultApplicationArguments(
+					args);
+			// 准备容器环境
+			ConfigurableEnvironment environment = prepareEnvironment(listeners,
+					applicationArguments);
+            // 设置需要忽略的bean
+			configureIgnoreBeanInfo(environment);
+            // 打印banner
+			Banner printedBanner = printBanner(environment);
+            // 创建应用容器
+			context = createApplicationContext();
+            // 实例化SpringBootExceptionReporter.class，用来支持报告关于启动的错误
+			exceptionReporters = getSpringFactoriesInstances(
+					SpringBootExceptionReporter.class,
+					new Class[] { ConfigurableApplicationContext.class }, context);
+            // 准备容器
+			prepareContext(context, environment, listeners, applicationArguments,
+					printedBanner);
+            // 刷新容器
+			refreshContext(context);
+            // 刷新容器后的扩展接口
+			afterRefresh(context, applicationArguments);
+			stopWatch.stop();
+			if (this.logStartupInfo) {
+				new StartupInfoLogger(this.mainApplicationClass)
+						.logStarted(getApplicationLog(), stopWatch);
+			}
+			listeners.started(context);
+			callRunners(context, applicationArguments);
+		}
+		catch (Throwable ex) {
+			handleRunFailure(context, ex, exceptionReporters, listeners);
+			throw new IllegalStateException(ex);
+		}
+
+		try {
+			listeners.running(context);
+		}
+		catch (Throwable ex) {
+			handleRunFailure(context, ex, exceptionReporters, null);
+			throw new IllegalStateException(ex);
+		}
+		return context;
+	}
+```
+
+#### 3.1 创建SpringApplicationRunListeners
+&emsp;&emsp；SpringApplicationRunListeners监听器列表目前只包含一个监听类型，即EventPublishingRunListner，主要用于监听run阶段各个生命周期的执行动作。
+
+#### 3.2 环境准备
+&emsp;&emsp; prepareEnvironment环境准备阶段主要是根据之前的WebApplicationType来实例化相应的环境
+```java
+private ConfigurableEnvironment prepareEnvironment(
+			SpringApplicationRunListeners listeners,
+			ApplicationArguments applicationArguments) {
+		// Create and configure the environment
+         // StandardServletEnvironment || StandardReactiveWebEnvironment || StandardEnvironment
+		ConfigurableEnvironment environment = getOrCreateEnvironment();
+        // 配置环境
+		configureEnvironment(environment, applicationArguments.getSourceArgs());
+		listeners.environmentPrepared(environment);
+		bindToSpringApplication(environment);
+		if (!this.isCustomEnvironment) {
+			environment = new EnvironmentConverter(getClassLoader())
+					.convertEnvironmentIfNecessary(environment, deduceEnvironmentClass());
+		}
+		ConfigurationPropertySources.attach(environment);
+		return environment;
+	}
+```
+- getOrCreateEnvironment： 根据前的WebApplicationType来实例化相应的环境（SandardServletEnvironment || StandardReactiveWebEnvironment || StandardEnvironment），以实例化SandardServletEnvironment为例，SandardServletEnvironment继承关系如下：   
+  ![继承关系](images/190908-springboot_start_1.png)    
+  &emsp;&emsp;这个过程会调用AbstractEvironment中定义的customizePropertySources设置PropertySources: servletContextInitParams、servletConfigInitParams、systemEnvironment以及systemProperties
+- configureEnvironment：配置PropertySources和Profiles

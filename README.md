@@ -1,5 +1,10 @@
 初入前端江湖才知深似海，记录一些工作和学习的总结，虽然水平有限，但欢迎大家star，相互学习进步。
 
+JVM
+- [JVM内存模型](./content/post/java/JVM/JVM内存模型.md);
+
+
+
 js基础
 - [js发展前史](./content/post/js/js发展前史.md)
 - [js中的初始化过程与垃圾回收](./content/post/js/js中的初始化过程与垃圾回收.md)
