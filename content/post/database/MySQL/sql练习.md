@@ -1,3 +1,16 @@
+---
+title: SQL小练习
+date: 2019-09-24
+categories:
+ - DataBase
+ - MySQL
+tags:
+ - DataBase
+ - MySQL
+---
+
+> 很多写法不是最优的，后期有时间再继续思考整理整理。
+
 建表
 学生表
 
