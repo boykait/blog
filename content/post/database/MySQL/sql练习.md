@@ -1,5 +1,7 @@
 -- 建表
 -- 学生表
+
+```
 CREATE TABLE IF NOT EXISTS `Student` (
 	`s_id` VARCHAR(20),
 	`s_name` VARCHAR(20) NOT NULL DEFAULT '',
@@ -7,6 +9,8 @@ CREATE TABLE IF NOT EXISTS `Student` (
 	`s_sex` VARCHAR(10) NOT NULL DEFAULT '',
 	PRIMARY KEY(`s_id`)
 );
+```
+
 -- 课程表
 CREATE TABLE IF NOT EXISTS `Course`(
 	`c_id`  VARCHAR(20),
