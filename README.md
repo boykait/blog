@@ -39,4 +39,4 @@ Spring
 数据库知识
 - MySQL
   - [MySQL必知必会学习笔记](./content/post/database/MySQL/MySQL必知必会学习笔记.md)
-  - [sql语句小练习](./content/post/database/MySQL/sql练习.md.md)
+  - [sql语句小练习](./content/post/database/MySQL/sql练习.md)
