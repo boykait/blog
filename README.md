@@ -1,4 +1,4 @@
-初入前端江湖才知深似海，记录一些工作和学习的总结，虽然水平有限，但欢迎大家star，相互学习进步。
+随便写写，随便总结。
 
 JVM
 - [JVM内存模型](./content/post/java/JVM/JVM内存模型.md);
@@ -39,3 +39,4 @@ Spring
 数据库知识
 - MySQL
   - [MySQL必知必会学习笔记](./content/post/database/MySQL/MySQL必知必会学习笔记.md)
+  - [sql语句小练习](./content/post/database/MySQL/sql练习.md)
