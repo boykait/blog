@@ -2,7 +2,7 @@
 
 JVM
 - [JVM内存模型](./content/post/java/JVM/JVM内存模型.md);
-
+- [垃圾回收](./content/post/java/JVM/02-垃圾回收.md);
 
 
 js基础
