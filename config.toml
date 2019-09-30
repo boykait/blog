@@ -1,0 +1,41 @@
+baseURL = "https://boykait.github.io"
+languageCode = "zh-CN"
+title = "技术博客"
+theme = "maupassant"
+
+[author]
+  name = "boyka"
+  
+[params]
+  author = "boyka"
+  subtitle = "积跬步 至千里"
+  keywords = ""
+  description = ""  
+  
+[menu]
+
+  [[menu.main]]
+    identifier = "archives"
+    name = "归档"
+    url = "/archives/"
+    weight = 1
+
+  [[menu.main]]
+    identifier = "about"
+    name = "关于"
+    url = "/about/"
+    weight = 2  
+	
+	
+  [[params.links]]
+	  title = "Android Gradle权威指南"
+	  name = "Android Gradle权威指南"
+	  url = "http://yuedu.baidu.com/ebook/14a722970740be1e640e9a3e"
+  [[params.links]]
+    title = "常用开发工具CDN镜像"
+    name = "常用开发工具CDN镜像"
+    url = "http://mirrors.flysnow.org/"
+	
+   
+ 
+
