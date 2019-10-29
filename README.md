@@ -40,3 +40,6 @@ Spring
 - MySQL
   - [MySQL必知必会学习笔记](./content/post/database/MySQL/MySQL必知必会学习笔记.md)
   - [sql语句小练习](./content/post/database/MySQL/sql练习.md)
+  
+小项目
+  - [掘金学习我有我道](https://github.com/boykait/juejin-search-helper)
