@@ -48,12 +48,22 @@ class Entry<K,V> extends HashMap.Node<K,V> {
 &emsp;&emsp;remove方法同样基本沿用HashMap的remove操作，在删除结束后，也要做一个操作，就是将当前元素的从链表中移除（调用afterNodeRemoval方法）。
 
 #### 3.3 增、改
-&emsp;&emsp; 
+&emsp;&emsp; 增加其实也没有太多的改变，创建节点的时候，将该节点放到链表的最后面,否则如果存在则进行put修改，然后调用afterNodeAccess(accessOrder为true有效)
+```java
+    Node<K,V> newNode(int hash, K key, V value, Node<K,V> e) {
+        LinkedHashMap.Entry<K,V> p =
+            new LinkedHashMap.Entry<K,V>(hash, key, value, e);
+        linkNodeLast(p);
+        return p;
+    }
+```
 
-### 4. 扩容
+### 4. 总结
 
-### 5. 应用
-
-### 6. 总结
+&esmp;&emsp;LinkedHashMap继承自HashMap，必然有很多特性和HashMap一样，简单再说一下LinkedHashMap的一些重要点：
+1. 线程非安全；
+2. 数据访问具备有序性；
+3. 可实现简单的LRU算法（注意线程安全性）；
+4. LinkedHashSet有相同特性（类似于HashMap和HashSet）。
 
 
