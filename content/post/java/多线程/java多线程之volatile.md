@@ -2,11 +2,11 @@
 title: java多线程之volatile
 date: 2019-11-15
 categories:
-   - 多线程
-   - java
+  - 多线程
+  - java
 tags:
-	- 多线程
-	- java
+  - 多线程
+  - java
 --- 
 
 #### 1. 讲讲什么是volatile？
