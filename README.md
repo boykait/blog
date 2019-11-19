@@ -1,5 +1,10 @@
 随便写写，随便总结。
 
+java多线程
+- [volatile](./content/post/java/多线程/java多线程之volatile.md);
+- [synchronied](./content/post/java/多线程/java多线程之synchronied	.md);
+- [Lock锁的常规使用](./content/post/java/多线程/java多线程之Lock锁的常规使用.md);
+
 JVM
 - [JVM内存模型](./content/post/java/JVM/JVM内存模型.md);
 - [垃圾回收](./content/post/java/JVM/02-垃圾回收.md);
