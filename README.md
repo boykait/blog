@@ -2,7 +2,7 @@
 
 java多线程
 - [volatile](./content/post/java/多线程/java多线程之volatile.md);
-- [synchronied](./content/post/java/多线程/java多线程之synchronied.md);
+- [synchronied](./content/post/java/多线程/java多线程之synchronied`.md);
 - [Lock锁的常规使用](./content/post/java/多线程/java多线程之Lock锁的常规使用.md);
 
 JVM

@@ -156,7 +156,150 @@ public class LockTest1 {
 
 ### Condition用法
 
-### 公平VS非公平
+&emsp;&emsp;Condition可以创建多个等待/唤醒条件，能够更加精细的控制多线程的休眠与唤醒，  但是，通过Condition，就能明确的指定唤醒读线程。以下实现一个多生产者和多消费者demo：
 
-思考：Lock是如何实现可见性的？
+```java
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class LockConditionTest {
+    ReentrantLock lock = new ReentrantLock();
+    static int SIZE = 10;
+    List<String> productList = new ArrayList<>(SIZE);
+    Condition produceCondition = lock.newCondition();
+    Condition consumeCondition = lock.newCondition();
+
+    public static void main(String[] args) {
+        LockConditionTest lt = new LockConditionTest();
+        // 创建10个生产者和10个消费者
+        for (int i = 0; i < 10; i++) {
+            // 生产者
+            new Thread(() -> {
+                lt.lock.lock();
+                try {
+                    // 当产品列表生产到最大量，停止生产
+                    while (lt.productList.size() >= SIZE) {
+                        try {
+                            lt.produceCondition.await();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    // 生产一个产品
+                    lt.productList.add("produce");
+                    System.out.println("produce a product");
+                    // 唤醒所有的大佬们来消费啦
+                    lt.consumeCondition.signalAll();
+                } finally {
+                    lt.lock.unlock();
+                }
+            }).start();
+
+            // 消费者
+            new Thread(() -> {
+                lt.lock.lock();
+                try {
+                    // 当产品列表为空时阻塞消费
+                    while (lt.productList.size() == 0) {
+                        try {
+                            lt.consumeCondition.await();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    // 有产品就消费啦
+                    lt.productList.remove(0);
+                    System.out.println("consume a product");
+                    // 老板们可以生产产品啦
+                    lt.produceCondition.signalAll();
+
+                } finally {
+                   lt.lock.unlock();
+                }
+            }).start();
+        }
+    }
+}
+
+
+// 输入结果:
+produce a product
+consume a product
+produce a product
+consume a product
+produce a product
+consume a product
+produce a product
+consume a product
+produce a product
+produce a product
+consume a product
+produce a product
+produce a product
+consume a product
+consume a product
+produce a product
+consume a product
+consume a product
+produce a product
+consume a product
+```
+
+&emsp;&emsp;如果采用Object类中的wait(), notify(), notifyAll()实现该该模型，当生产者们生产了产品后唤醒消费者消费产品时，不可能通过notify()或notifyAll()明确的指定唤醒"生产或是消费线程"，而只能通过notifyAll唤醒所有线程(但是notifyAll无法区分唤醒的线程是生产线程，还是消费线程)。 给出wait/notify版本：
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class PCSynchronizedTest {
+    static final int SIZE = 10;
+    static List<String> productList = new ArrayList<>(SIZE);
+
+    public static void main(String[] args) {
+        for (int i = 0; i < 10; i++) {
+            // 生产者
+            new Thread(() -> {
+                synchronized (productList) {
+                    // 当产品列表生产到最大量，停止生产
+                    while (productList.size() >= SIZE) {
+                        try {
+                            productList.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    // 生产一个产品
+                    productList.add("produce");
+                    System.out.println("produce a product");
+                    // 唤醒所有的大佬们来消费啦
+                    productList.notify();
+                }
+            }).start();
+
+            new Thread(() -> {
+                synchronized (productList) {
+                    // 当产品列表为空时阻塞消费
+                    while (productList.size() == 0) {
+                        try {
+                            productList.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    // 有产品就消费啦
+                    productList.remove(0);
+                    System.out.println("consume a product");
+                    // 老板们可以生产产品啦
+                    productList.notify();
+                }
+            }).start();
+        }
+    }
+}
+
+```
+
 
