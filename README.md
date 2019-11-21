@@ -3,7 +3,8 @@
 java多线程
 - [volatile](./content/post/java/多线程/java多线程之volatile.md);
 - [synchronied](./content/post/java/多线程/java多线程之synchronied`.md);
-- [Lock锁的常规使用](./content/post/java/多线程/java多线程之Lock锁的常规使用.md);
+- [Lock锁的常规使用](./content/post/java/多线程/java多线程之Lock锁的常规使用.md);  
+- [抽象队器-AQS](./content/post/java/多线程/java多线程之AQS.md); 
 
 JVM
 - [JVM内存模型](./content/post/java/JVM/JVM内存模型.md);
