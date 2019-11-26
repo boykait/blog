@@ -8,10 +8,10 @@ tags:
   - 多线程
 ---
 
-1. 什么是AQS
+### 1. 什么是AQS 
   前面Lock锁的常规使用部分介绍到了两种比较常用的锁ReentrantLock和ReentrantReadWriteLock，这两种锁实现尤其是后者给多线程的并发访问场景的带来了不小的性能提升，我们都知道，针对同一块临界资源，在使用锁的lock()方法锁住的时候，同一时刻只能有一个线程访问，知道锁的释放unlock()，还有两种锁实现都具备公平和非公平的能力，够强吧，这一切底层都归功于AQS(AbstractQueuedSynchronizer，抽象队列同步器)，除了Lock锁，还有其它的如:Semaphore都是依赖于AQS, 此外，我们还可以借助AQS模板功能实现自己的同步器。
 
-### AQS结构概览
+### 2. AQS结构概览
 &emsp;&emsp;AQS主要是对队列进行入队和出队的过程，当然考虑到多线程环境下，必须对队列操作进行同步操作，这个就需要一个状态state来进行控制，简单来说，就是谁获取了对这个状态字段的读写控制权，谁就可以对队列进行相关操作。AQS内部就是通过一个int类型的state字段来进行控制，为了实现其本身的通用性，state被一分为二，高16位表示shared，看其内部简要结构：
 
 ```java
@@ -28,7 +28,7 @@ public abstract class AbstractQueuedSynchronizer
 }
 
 ```
-### 1. 从ReentrantLock入手
+### 3. 从ReentrantLock入手
 &emsp;&emsp;锁是面向开发者，内部为我们屏蔽了太多细节，可重入锁ReentrantLock内部实现了内置同步器Sync，并基于该同步器继续实现了NonfairSync和FairSync两个同步器，这俩的区别主要在于新加入的线程会以抢占的方式去尝试获取锁，失败则进入同步队列，而后者是直接进入同步队列，前者性能要好一些，但是可能存在请求饿死现象（人家等得花儿都谢啦，还没轮到我，饿饿饿啊）。 以默认的实现非公平同步器为例，当我们在尝试调用lock.lock()方法时，执行如下：
 ```java
     // NonfairSync
@@ -102,7 +102,7 @@ public class ConditionObject implements Condition {
 ```
 &emsp;&emsp;那就其实不用写太多了，await和sigal系列无非就是入队和出队的过程啦，感兴趣的同学可以自己去研究一波。
 
-#### 共享和独有模式是如何实现的？
+#### 4. 共享和独有模式是如何实现的？
 &emsp;&emsp;在可重入读写锁中实现了多线程实现共享读，互斥写，这里面又有啥乾坤呢？首先来说，可重入读写锁内部存在两把锁：读锁(ReadLock)和写锁(WriteLock)，这两者实现内部都实现了独特的同步器，两者友好协商处理AQS的state状态。
 &emsp;&emsp;看看读锁，读的特点就是共享，所以调用了AQS另一系列操作接口，主要是带shared，一看就明白：
 ```java
