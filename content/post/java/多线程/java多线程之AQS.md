@@ -137,6 +137,8 @@ protected final int tryAcquireShared(int unused) {
 	if (exclusiveCount(c) != 0 &&
 		getExclusiveOwnerThread() != current)
 		return -1;
+   // r = c >>> SHARED_SHIFT 高16位代表读线程数，低16位代表写
+   // c = c + 65536这样c会达到最大值的时候刚好r为65535，会加锁失败，那就等着先释放锁吧
 	int r = sharedCount(c);
 	if (!readerShouldBlock() &&
 		r < MAX_COUNT &&
@@ -156,18 +158,21 @@ protected final int tryAcquireShared(int unused) {
 		}
 		return 1;
 	}
+    // 死循环获取读锁。包含锁降级策略。
 	return fullTryAcquireShared(current);
         }
 ```
 
-&emsp;&emsp;在do中主要是完成：
+&emsp;&emsp;如果上一步的获取共享锁失败了，那么在doAcquireShared中主要是完成：
 
 ```java
 private void doAcquireShared(int arg) {
+    // 添加队尾Node
 	final Node node = addWaiter(Node.SHARED);
 	boolean failed = true;
 	try {
 		boolean interrupted = false;
+        // 自旋加锁
 		for (;;) {
 			final Node p = node.predecessor();
 			if (p == head) {
@@ -181,6 +186,7 @@ private void doAcquireShared(int arg) {
 					return;
 				}
 			}
+            // 是否是应该被阻塞起来等待被唤醒
 			if (shouldParkAfterFailedAcquire(p, node) &&
 				parkAndCheckInterrupt())
 				interrupted = true;
@@ -192,4 +198,9 @@ private void doAcquireShared(int arg) {
 }
 ```
 
+#### 5. 总结
+
+&emsp;&emsp;简单对本小章文章进行总结，当前写的较为粗糙，作为自己学习笔记吧：
+- AQS主要是包含了一个整形的state（高16位读，低16位写）和一个Node队列，控制线程lock的请求顺序
+- Condition主要通过AQS中的ConditionObject实现，ConditionObject内部实现了对该Condition条件的等待node(线程)队列
 
