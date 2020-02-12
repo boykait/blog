@@ -28,6 +28,7 @@ MyBatis
 - [MyBatis技术解密（二）：初始化流程](./content/post/mybatis/MyBatis技术解密（二）.md)
 - [MyBatis技术解密（三）：执行阶段](./content/post/mybatis/MyBatis技术解密（三）.md)
 - [MyBatis技术解密（四）：细聊SqlSession](./content/post/mybatis/MyBatis技术解密（四）.md)
+- [MyBatis技术解密（五）：MyBatis一级缓存](./content/post/mybatis/MyBatis技术解密（五）.md)
 
 数据库知识
 - MySQL
