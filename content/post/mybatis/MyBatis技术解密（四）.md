@@ -101,11 +101,11 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
 在公司，现在后端开发子项目都是基于SpringBoot来进行的，好处就不用再唠叨了，方便快速，这里在配置[DEMO]()，在引入mybatis-spring-boot-starter这个starter时会自动引入mybatis-spring-boot-autoconfigure这个依赖包，里面的MybatisAutoConfiguration类文件就去做了SqlSessionFactory，SqlSessionTemplate等的实例化配置并注册到Spring的IOC容器中，核心流程其实和使用单独使用MyBatis异曲同工，由SqlSessionFactoryBean产生SqlSessionFactory实例：
 
 注册SqlSessionFactory实例到IOC:
-![1](images/200209_mybatis_session_1.png)
-![2](images/200209_mybatis_session_2.png)
+![1](/images/200209_mybatis_session_1.png)
+![2](/images/200209_mybatis_session_2.png)
 
 SqlSessionTemplate对象:
-![3](images/200209_mybatis_session_3.png)
+![3](/images/200209_mybatis_session_3.png)
 ```java
  public SqlSessionTemplate(SqlSessionFactory sqlSessionFactory, ExecutorType executorType,
       PersistenceExceptionTranslator exceptionTranslator) {
