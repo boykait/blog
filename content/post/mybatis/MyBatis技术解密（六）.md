@@ -146,7 +146,7 @@ protected final Map<String, Cache> caches = new StrictMap<>("Caches collection")
 }
 ```
 
-###### 应用阶段
+##### 应用阶段
 在cache的应用阶段，无非就主要根据我们是否配置相关的缓存策略来判断是读取缓存数据呢，还是读取数据库数据，还有就是在删除，修改、创建时会清除当前Mapper的cache数据。通过sqlSession1.getMapper(UserMapper.class)获取到mapper代理对象，然后跟着调用链会调用CachingExecutor中的查询方法：
 ```java
 // CachingExecutor
@@ -209,6 +209,7 @@ public class TransactionalCache implements Cache {
 这是什么原理呢，原来Cache的实现是有很多种：
 
 ![3](/images/200213_mybatis_level2_cache_3.png)
+
 在构造cache过程中会使用一种叫做装饰器的设计模式来进行缓存数据的存储设计。在创建Cache对象的阶段，会根据我们的配置利用这种设计模式来处理：
 
 ```java
