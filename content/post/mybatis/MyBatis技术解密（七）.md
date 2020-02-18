@@ -52,7 +52,9 @@ public class TransactionTest {
 
 #### Transaction
 事务的被抽象成接口，目前具体实有两种实现模式，以继承图方式看一下：
+
 ![](/images/200217_mybatis_transaction_management_1.png)
+
 我们要知道，在MyBatis中，事务功能是默认开启的，所以我们就需要知道事务是何时开启，何时使用？源码之下无秘密，在openSession阶段，为当前SqlSession注入了事务能力，TransactionIsolationLevel是对应数据库的四种隔离级别，我们可以手动指定：
 
 ```java
