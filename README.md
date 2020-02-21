@@ -6,6 +6,9 @@ java多线程
 - [Lock锁的常规使用](./content/post/java/多线程/java多线程之Lock锁的常规使用.md);  
 - [抽象队器-AQS](./content/post/java/多线程/java多线程之AQS.md); 
 
+- [Java线程池（一）：运行阶段可以修改参数吗](./content/post/java/多线程/java线程池（一）.md); 
+
+
 JVM
 - [JVM内存模型](./content/post/java/JVM/JVM内存模型.md);
 - [垃圾回收](./content/post/java/JVM/02-垃圾回收.md);
