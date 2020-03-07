@@ -39,6 +39,9 @@ MyBatis
 - MySQL
   - [MySQL必知必会学习笔记](./content/post/database/MySQL/MySQL必知必会学习笔记.md)
   - [sql语句小练习](./content/post/database/MySQL/sql练习.md)
+  
+- Redis
+ - [仅初步整理For Interview](./content/post/redis/学Redis，先懂这些就够了.md)  
 
 js基础
 - [js发展前史](./content/post/js/js发展前史.md)
