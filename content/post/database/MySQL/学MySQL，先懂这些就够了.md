@@ -25,7 +25,7 @@ tags:
 show global variables like "%datadir%"
 ```
 看看常用的InnoDB和MyISAM数据库是怎么存储的
-![数据库的存储形式](/imagers/200301_mysql_learn_01.png)
+![数据库的存储形式](/images/200301_mysql_learn_01.png)
 其中：
 db.opt是存储的创建数据库的字符集：    
 ```
